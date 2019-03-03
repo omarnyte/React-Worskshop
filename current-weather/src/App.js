@@ -8,10 +8,12 @@ class App extends Component {
 
     this.state = {
       weatherData: null,
+      zip: ""
     }
 
     this.fetchWeather = this.fetchWeather.bind(this);
     this.fetchWeatherByBrowserPosition = this.fetchWeatherByBrowserPosition.bind(this);
+    this.fetchWeatherByZip = this.fetchWeatherByZip.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -29,6 +31,12 @@ class App extends Component {
       <div>
         <header>
           <h1>Current Weather</h1>
+
+          <div>
+            <input onChange={this.handleChange} type="text" value={zip}/>
+            <button onClick={this.fetchWeatherByZip} type="button">Search</button>
+          </div>
+
           <WeatherCard weatherData={this.state.weatherData} />
         </header>
 
@@ -50,6 +58,11 @@ class App extends Component {
     const { latitude, longitude } = position.coords;
 
     const url = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${secrets.OPEN_WEATHER_MAP_KEY}`;
+    this.fetchWeather(url);
+  }
+
+  fetchWeatherByZip() {
+    const url = `http://api.openweathermap.org/data/2.5/weather?zip=${this.state.zip},us&appid=${secrets.OPEN_WEATHER_MAP_KEY}`;
     this.fetchWeather(url);
   }
 
