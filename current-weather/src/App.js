@@ -1,3 +1,5 @@
+import './App.css';
+
 import React, { Component } from 'react';
 import secrets from "./secrets";
 import WeatherCard from "./WeatherCard";
@@ -35,13 +37,12 @@ class App extends Component {
     const { Content, ZipInput } = this;
 
     return (
-      <div>
+      <div className="app">
         <header>
           <h1>Current Weather</h1>
+        </header>
           <ZipInput />
           <Content />
-        </header>
-
       </div>
     );
   }
@@ -86,6 +87,10 @@ class App extends Component {
   }
 
   fetchWeatherByZip() {
+    this.setState({
+      zip: ""
+    })
+
     const url = `http://api.openweathermap.org/data/2.5/weather?zip=${this.state.zip},us&appid=${secrets.OPEN_WEATHER_MAP_KEY}`;
     this.fetchWeather(url);
   }
