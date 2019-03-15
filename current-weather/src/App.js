@@ -76,7 +76,14 @@ class App extends Component {
   }
 
   getWeatherInCurrentLocation() {
-    navigator.geolocation.getCurrentPosition(this.fetchWeatherByBrowserPosition);
+    const successCallback = (position) => this.fetchWeatherByBrowserPosition(position);
+    const failureCallback = () => {
+      window.alert("You must enable geolocation to use this app.");
+      this.setState({
+        loadingStatus: LOADING_STATUS.ERROR
+      })
+    }
+    navigator.geolocation.getCurrentPosition(successCallback, failureCallback);
   }
 
   fetchWeatherByBrowserPosition(position) {
